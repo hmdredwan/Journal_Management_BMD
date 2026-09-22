@@ -1,0 +1,56 @@
+{% extends 'admin_dashboard/base.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>Welcome to the Admin Dashboard</h2>
+            <p class="text-muted">Manage submissions and content uploads</p>
+        </div>
+    </div>
+
+    <!-- Upload Cards -->
+    <div class="row justify-content-center">
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Upload Research Paper</h5>
+                    <p class="card-text">Submit a new paper to the journal</p>
+                    <a href="{% url 'upload_paper' %}" class="btn btn-primary">Upload Papers</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Upload News</h5>
+                    <p class="card-text">Add a news item to the website.</p>
+                    <a href="{% url 'upload_news' %}" class="btn btn-warning">Upload News</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Update Editorial Board</h5>
+                    <p class="card-text">Add Members in Editorial Board.</p>
+                    <a href="{% url 'upload_editorial_member' %}" class="btn btn-info">Add Members Info</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Manage Authors Instruction</h5>
+                    <p class="card-text">{% if pdf %}Uploaded on {{ pdf.uploaded_at|date:"D, F jS Y" }}{% else %}No PDF uploaded{% endif %}</p>
+                    <a href="{% url 'manage_authors_instruction_pdf' %}" class="btn btn-primary">{% if pdf %}Update{% else %}Upload PDF{% endif %}</a>
+                </div>
+            </div>
+        </div>
+  
+    </div>
+{% endblock %}

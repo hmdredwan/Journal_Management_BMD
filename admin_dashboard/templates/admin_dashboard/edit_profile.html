@@ -1,0 +1,102 @@
+{% extends 'admin_dashboard/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Edit Profile</h2>
+
+    <!-- Display messages -->
+    {% if messages %}
+    <div class="mb-4">
+        {% for message in messages %}
+        <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% else %}alert-info{% endif %} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Profile update form -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title mb-0">Update Profile</h5>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{% url 'edit_profile' %}">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="profile">
+                {% if user_form.errors %}
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        {% for field in user_form %}
+                        {% for error in field.errors %}
+                        <li>{{ field.label }}: {{ error }}</li>
+                        {% endfor %}
+                        {% endfor %}
+                        {% for error in user_form.non_field_errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                {{ user_form.as_p }}
+                <button type="submit" class="btn btn-success">Update Profile</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Password change form -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title mb-0">Change Password</h5>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{% url 'edit_profile' %}">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="password">
+                {% if password_form.errors %}
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        {% for field in password_form %}
+                        {% for error in field.errors %}
+                        <li>{{ field.label }}: {{ error }}</li>
+                        {% endfor %}
+                        {% endfor %}
+                        {% for error in password_form.non_field_errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                {{ password_form.as_p }}
+                <button type="submit" class="btn btn-primary">Change Password</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .card-header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+    }
+    @media (max-width: 767.98px) {
+        .container {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .btn {
+            font-size: 0.85rem;
+            padding: 0.5rem 1rem;
+        }
+        .card-body {
+            padding: 1rem;
+        }
+    }
+</style>
+{% endblock %}

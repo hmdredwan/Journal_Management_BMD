@@ -1,0 +1,241 @@
+
+.fixed-img {
+    width: 100%;
+    height: 200px; /* Fixed height */
+    object-fit: cover; /* Ensures the image fits within the box */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+/* Navbar */
+/* Custom Navbar */
+.custom-navbar {
+    /* background-color:#10898d !important;  */
+    /* background-color:	#113065 !important;  */
+    /* margin-top:30px; */
+    margin-top:0px;
+    background-color:	#66c430 !important; 
+    padding: 15px 0;
+    
+}
+
+/* Change Nav Item Text Color */
+.custom-navbar .nav-link {
+    color: #ffffff !important; /* White text */
+    font-size: 12px;
+    font-weight: bold;
+    transition: color 0.3s ease-in-out;
+}
+
+/* Change Nav Item Hover Effect */
+.custom-navbar .nav-link:hover {
+    /* color: 	#3e5172 !important;  */
+    color: 	#c3f73a !important; 
+}
+
+/* Change Active Nav Item Color */
+.custom-navbar .nav-link.active {
+    /* color: 	#f39c12 !important;  */
+    color: 	#4b9e27 !important; 
+    font-weight: bold;
+    border-bottom: 2px solid #e74c3c; 
+}
+
+.card {
+    min-height: 100%; 
+    display: flex;
+    flex-direction: column;
+}
+.card-body {
+    display: flex;
+    flex-direction: column;
+}
+/* .carousel-img {
+    height: 400px;
+    object-fit: cover;
+    width : 100%;
+}
+@media (max-width: 768px) {
+    .carousel-img {
+        height: 300px;
+    }
+}
+.carousel-caption {
+    background: rgba(0, 0, 0, 0.5); 
+    padding: 10px;
+    border-radius: 5px;
+    bottom: 40%; 
+} */
+.carousel-img {
+    height: 400px;
+    object-fit: cover;
+    width: 100%;
+}
+.carousel-caption {
+    background: rgba(0, 0, 0, 0.6); 
+    padding: 10px;
+    border-radius: 5px;
+    bottom: 44%; 
+}
+.carousel-caption h5 {
+    font-size: 1.25rem;
+    margin: 0;
+}
+.carousel-control-prev,
+.carousel-control-next {
+    width: 10%; 
+    opacity: 0.7; 
+}
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    opacity: 1; 
+}
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 50px; 
+    height: 40px; 
+    background-size: 80%; 
+    border-radius: 5px; 
+    /* background-color: rgba(238, 237, 237, 0.5); */
+    /* background-color: #e74c3c; */
+    background-color: rgb(255, 230, 0);
+}
+@media (max-width: 768px) {
+    .carousel-img {
+        height: 300px;
+    }
+    .carousel-caption {
+        padding: 8px;
+        bottom: 30%; 
+    }
+    .carousel-caption h5 {
+        font-size: 0.9rem; 
+    }
+     .carousel-control-prev,
+    .carousel-control-next {
+        width: 10%; 
+    }
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        width: 30px; 
+        height: 30px;
+        background-size: 80%;
+    }
+}
+
+
+footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+/* Adjust Navbar Height */
+.navbar {
+    height: 80px; 
+    padding: 10px 0; 
+}
+.nav-link i {
+    /* color: white;   */
+    color: #2F4F4F;  
+    margin-left: 10px; 
+    transition: color 0.3s ease-in-out;
+}
+
+.nav-link i:hover {
+    /* color: #f1c40f;  */
+    color: #FFC107; 
+}
+
+body {
+    padding-top: 80px; 
+}
+.carousel{
+    top:0;
+}
+
+
+/* Contact Page Styling */
+.contact-info {
+    background: #ebeaea;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.contact-info p {
+    margin: 10px 0;
+}
+
+.contact-info h4, .contact-info h5 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+.contact-info h5{
+    margin-top:  150px;
+    font-size: 30px;
+    color:red;
+}
+
+/* Social Media Links */
+.social-link {
+    display: inline-block;
+    font-size: 18px;
+    margin: 8px;
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+.social-link i {
+    margin-right: 8px;
+}
+
+.social-link:hover {
+    color: #e74c3c;
+}
+form{
+    border:3px solid rgb(8, 113, 134) ;
+    padding:20px;
+    /* margin:10px; */
+    border-radius:5px;
+}
+
+/* .input-group {
+    max-width: 500px;
+    margin: auto;
+   
+} */
+
+/* About us */
+.about-us {
+    background-color: #f8f9fa;
+    padding: 60px 0;
+}
+
+.about-us h2, .about-us h3 {
+    font-weight: bold;
+    color: #333;
+}
+
+.about-us p {
+    font-size: 18px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.about-us .list-group-item {
+    font-size: 16px;
+    border: none;
+    background-color: transparent;
+    padding: 5px;
+}
+
+/* .custom-border-end {
+    border-right: 6px solid #f1c40f; 
+    padding-right: 20px;
+    
+} */
+.custom-border-start {
+    border-left: 6px solid #f1c40f; 
+    padding-left: 2px; 
+}

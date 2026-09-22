@@ -1,0 +1,55 @@
+{% extends 'admin_dashboard/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    {% if messages %}
+        <div class="row">
+            <div class="col-md-12">
+                {% for message in messages %}
+                    {% if message.tags == 'admin' %}
+                        <div class="alert alert-{{ message.level_tag }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    <h2 class="mb-4">Book Volumes</h2>
+    <div class="mb-3">
+        <a href="{% url 'upload_book_volume' %}" class="btn btn-success">Create New Volume</a>
+    </div>
+    {% if volumes %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Volume Number</th>
+                        <th>Created Date</th>
+                        <th>Papers</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for volume in volumes %}
+                        <tr>
+                            <td>{{ volume.volume_number }}</td>
+                            <td>{{ volume.created_date|date:"F j, Y" }}</td>
+                            <td>{{ volume.papers.count }} paper{{ volume.papers.count|pluralize }}</td>
+                            <td>
+                                <a href="{% url 'edit_book_volume' volume.id %}" class="btn btn-sm btn-primary">Edit</a>
+                                <a href="{% url 'delete_book_volume' volume.id %}" class="btn btn-sm btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="text-muted">No book volumes created yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

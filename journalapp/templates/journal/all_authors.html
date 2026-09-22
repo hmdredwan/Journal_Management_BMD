@@ -1,0 +1,16 @@
+{% extends 'journal/base.html' %}
+
+{% block title %}BMD Journal{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="text-center mb-4">All Contributing Authors</h2>
+    <ul class="list-group text-center">
+        {% for author in authors %}
+        <li class="list-group-item">{{ author }}</li>
+        {% empty %}
+        <li class="list-group-item text-muted">No authors available</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

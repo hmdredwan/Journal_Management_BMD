@@ -1,0 +1,217 @@
+{% extends 'journal/base.html' %}
+{% load static %}
+
+{% block title %}Editorial Board - BMD Journal{% endblock %}
+
+{% block content %}
+<!-- Editorial Board Section -->
+<section class="editorial-board py-4">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0 text-center flex-grow-1">Editorial Board</h2>
+            <button class="btn btn-primary btn-lg w-80 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#membersList" aria-expanded="false" aria-controls="membersList">
+                Members List
+            </button>
+        </div>
+        <div class="row">
+            <!-- Main Content (Postcards) -->
+            <div class="col-12 col-md-7">
+                <div class="container-postcards row row-cols-1 row-cols-md-2 g-4">
+                    {% for member in members %}
+                    <article class="postcard blue">
+                        {% if member.photo %}
+                            <img class="postcard__img" src="{{ member.photo.url }}" alt="{{ member.name }} Photo">
+                        {% else %}
+                            <img class="postcard__img" src="{% static 'images/editorial_board.png' %}" alt="Default Photo">
+                        {% endif %}
+                        <div class="postcard__text">
+                            <a href="#" class="postcard__link" aria-label="View {{ member.name }}'s profile">
+                                <h4 class="postcard__title">{{ member.name }}</h4>
+                            </a>
+                            <div class="postcard__designation small">
+                                {% if member.designation %}
+                                    {{ member.designation }}
+                                {% else %}
+                                    Designation not available
+                                {% endif %}
+                            </div>
+                        </div>
+                    </article>
+                    {% empty %}
+                    <p class="text-center">No editorial board members available.</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- Members List Column -->
+            <div class="col-12 col-md-5 collapse" id="membersList">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Members List</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        {% if members %}
+                        <ul class="list-group list-group-flush">
+                            {% for member in members %}
+                            <li class="list-group-item" style="color: #2F4F4F;">
+                                {{ member.name }}<br>
+                                <span class="text-muted">{{ member.designation|default:"Designation not available" }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                        <p class="p-3 mb-0">No members available.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Custom CSS for Editorial Board and Members List -->
+<style>
+    .member-photo {
+        width: 100%;
+        height: 100px;
+        object-fit: fill;
+        object-position: center;
+    }
+    .container-postcards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .postcard {
+        display: flex;
+        height: 100px; 
+        width: 100%;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        margin-bottom: 5px;
+        /* flex: 1 0 0;
+        align-items: stretch; */
+    }
+
+    .postcard.blue .postcard__bar {
+        background-color: #3498db;
+    }
+
+    .postcard.blue .postcard__text::before {
+        background: #3498db;
+    }
+
+    .postcard__img {
+        width: 40%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+        position: relative;
+        top: 0;
+    }
+
+    .postcard__text {
+        /* line-height: 100%;
+        padding: 10px;
+        width: 60%;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background-color: #fff;
+        color: #333; */
+        /* overflow: visible;  */
+          padding: 15px;
+        width: 60%;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background-color: #fff;
+        color: #333;
+    }
+
+    .postcard__link {
+        text-decoration: none;
+        color: #212529;
+        transition: all 0.3s ease;
+    }
+
+    .postcard__link:hover {
+        color: #66c430 !important;
+        text-decoration: underline;
+        transform: scale(1.05);
+        background-color: rgba(102, 196, 48, 0.1);
+        padding: 2px 5px;
+        border-radius: 3px;
+    }
+
+    .postcard__title {
+        font-size: 1.25rem;
+        margin: 0;
+        font-weight: 600;
+        white-space: nowrap; /* Prevent title from wrapping */
+        overflow: hidden;
+        text-overflow: ellipsis; /* Add ellipsis for long titles */
+    }
+
+    .postcard__designation {
+        color: #666;
+        font-size: 0.875rem;
+        margin: 5px 0;
+        /* white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;  */
+    }
+
+    .postcard__bar {
+        width: 50px;
+        height: 5px;
+        margin: 10px 0;
+        border-radius: 5px;
+    }
+
+    @media (max-width: 767.98px) {
+        .postcard {
+            flex-direction: column;
+            height: auto; /* Allow height to adjust on small screens */
+        }
+        .postcard__img {
+            width: 100%;
+            height: 120px;
+        }
+        .postcard__text {
+            width: 100%;
+            padding: 10px;
+        }
+        .postcard__title,
+        .postcard__designation {
+            white-space: normal; /* Allow wrapping on small screens */
+        }
+        #membersList {
+            margin-top: 20px;
+        }
+        #membersList .card {
+            max-height: 300px;
+        }
+    }
+
+    /* Adjust list styling to match postcard theme */
+    #membersList .list-group-item {
+        background-color: #f8f9fa;
+        border-color: #3498db;
+    }
+    #membersList .list-group-item:hover {
+        background-color: #e9ecef;
+    }
+
+    /* Wider button styling */
+    .btn.btn-lg.w-100 {
+        padding: 10px 20px;
+        font-size: 1.1rem;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,168 @@
+{% extends 'admin_dashboard/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container-fluid py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-xl-10">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary btn-sm">← Back to Dashboard</a>
+                <span class="badge bg-secondary text-uppercase py-2 px-3">Admin Upload</span>
+            </div>
+
+            <div class="card upload-card shadow-lg border-0 overflow-hidden">
+                <div class="row g-0">
+                    <div class="col-lg-5 bg-gradient-primary text-white p-5 d-flex flex-column justify-content-between">
+                        <div>
+                            <h1 class="h3 fw-bold mb-3">
+                                {% if edit %}
+                                    {% if type == "News" %}
+                                        Edit News Item
+                                    {% elif type == "Gallery" %}
+                                        Edit Gallery Image
+                                    {% elif type == "Editorial Member" %}
+                                        Edit Editorial Board Member
+                                    {% elif type == "Authors Instruction PDF" %}
+                                        Edit Authors Instruction PDF
+                                    {% else %}
+                                        Edit Research Paper
+                                    {% endif %}
+                                {% else %}
+                                    {% if type == "News" %}
+                                        Upload News Item
+                                    {% elif type == "Gallery" %}
+                                        Upload Gallery Image
+                                    {% elif type == "Editorial Member" %}
+                                        Update Editorial Board Member Information
+                                    {% elif type == "Authors Instruction PDF" %}
+                                        Upload Authors Instruction PDF
+                                    {% else %}
+                                        Upload New Research Paper
+                                    {% endif %}
+                                {% endif %}
+                            </h1>
+                            <p class="text-white-75 mb-4">
+                                {% if type == "News" %}
+                                    Add the latest news item for the journal homepage.
+                                {% elif type == "Gallery" %}
+                                    Upload a gallery image for the public gallery.
+                                {% elif type == "Editorial Member" %}
+                                    Add or edit an editorial board member profile.
+                                {% elif type == "Authors Instruction PDF" %}
+                                    Upload the latest author instruction PDF.
+                                {% else %}
+                                    Create or update a research paper entry with title, author, abstract, PDF, thumbnail, and volume.
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 p-5 bg-white">
+                        <div class="mb-4">
+                            <h2 class="h4 mb-2">Upload Details</h2>
+                            <p class="text-muted mb-0">Fill in the form below and press {{ edit|yesno:"Update,Submit" }} to save.</p>
+                        </div>
+                        <form method="POST" enctype="multipart/form-data" class="upload-form">
+                            {% csrf_token %}
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-danger mb-4">
+                                    {{ form.non_field_errors }}
+                                </div>
+                            {% endif %}
+                            <div class="row g-3">
+                                {% for field in form %}
+                                    {% if field.is_hidden %}
+                                        {{ field }}
+                                    {% else %}
+                                        <div class="col-12">
+                                            <label class="form-label fw-semibold" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                            {{ field }}
+                                            {% if field.help_text %}
+                                                <small class="form-text text-muted">{{ field.help_text }}</small>
+                                            {% endif %}
+                                            {% if field.name == 'author' %}
+                                                <small class="form-text text-muted">Tip: use numbers in the author field and they will convert to superscript on blur, e.g. John Doe¹, Jane Roe².</small>
+                                            {% endif %}
+                                            {% if field.errors %}
+                                                <div class="text-danger small">{{ field.errors|striptags }}</div>
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="mt-4 d-flex flex-column flex-sm-row align-items-center gap-3">
+                                <button type="submit" class="btn btn-primary btn-lg px-5">{{ edit|yesno:"Update,Submit" }}</button>
+                                <span class="text-muted">Supported formats: PDF and images. File size subject to server limits.</span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.upload-card {
+    border-radius: 28px;
+}
+.bg-gradient-primary {
+    background: linear-gradient(180deg, #0b5ed7 0%, #3f76cc 100%);
+}
+.upload-card .form-control,
+.upload-card .form-select {
+    border-radius: 12px;
+    padding: 1rem 1rem;
+    height: auto;
+}
+.upload-card .form-label {
+    font-weight: 600;
+}
+.upload-form .form-control[type="file"] {
+    padding: 0.8rem 0.9rem;
+}
+.upload-card .btn-primary {
+    border-radius: 999px;
+}
+.upload-card .alert {
+    border-radius: 12px;
+}
+@media (max-width: 991.98px) {
+    .upload-card .col-lg-5,
+    .upload-card .col-lg-7 {
+        min-height: auto;
+    }
+}
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const authorInput = document.querySelector('input[name="author"]');
+        if (!authorInput) {
+            return;
+        }
+
+        const superscriptMap = {
+            '0': '⁰',
+            '1': '¹',
+            '2': '²',
+            '3': '³',
+            '4': '⁴',
+            '5': '⁵',
+            '6': '⁶',
+            '7': '⁷',
+            '8': '⁸',
+            '9': '⁹'
+        };
+
+        function convertDigitsToSuperscript(value) {
+            return value.replace(/\d/g, function(match) {
+                return superscriptMap[match] || match;
+            });
+        }
+
+        authorInput.addEventListener('blur', function() {
+            this.value = convertDigitsToSuperscript(this.value);
+        });
+    });
+</script>
+{% endblock %}

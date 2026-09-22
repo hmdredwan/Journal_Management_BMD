@@ -1,0 +1,130 @@
+{% extends 'journal/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 text-center mb-4">
+            <h2 class="display-6 fw-bold">Contact Us</h2>
+            <p class="text-muted">Have a question or feedback? Fill out the form and we'll get back to you soon.</p>
+        </div>
+
+        {% if messages %}
+        <div class="col-12">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {% for message in messages %}
+                    <div>{{ message }}</div>
+                {% endfor %}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="col-lg-10">
+            <div class="row g-4">
+                <div class="col-lg-5 order-lg-2">
+                    <div class="card shadow-sm border-0 h-100">
+                        <div class="card-body p-4">
+                            <h5 class="mb-4">Contact Information</h5>
+                            {% if contact_info %}
+                            <ul class="list-unstyled mb-4">
+                                <li class="mb-3 d-flex align-items-start gap-3">
+                                    <span class="text-primary fs-4"><i class="fas fa-map-marker-alt"></i></span>
+                                    <div>
+                                        <strong>Address</strong>
+                                        <p class="mb-0 text-muted">{{ contact_info.address }}</p>
+                                    </div>
+                                </li>
+                                <li class="mb-3 d-flex align-items-start gap-3">
+                                    <span class="text-primary fs-4"><i class="fas fa-phone-alt"></i></span>
+                                    <div>
+                                        <strong>Phone</strong>
+                                        <p class="mb-0 text-muted">{{ contact_info.phone }}</p>
+                                    </div>
+                                </li>
+                                <li class="mb-3 d-flex align-items-start gap-3">
+                                    <span class="text-primary fs-4"><i class="fas fa-envelope"></i></span>
+                                    <div>
+                                        <strong>Email</strong>
+                                        {% for email in email_list %}
+                                        <p class="mb-0 text-muted">{{ email|striptags }}</p>
+                                        {% endfor %}
+                                    </div>
+                                </li>
+                                <li class="d-flex align-items-start gap-3">
+                                    <span class="text-primary fs-4"><i class="fas fa-globe"></i></span>
+                                    <div>
+                                        <strong>Website</strong>
+                                        <p class="mb-0"><a href="{{ contact_info.website }}" class="text-decoration-none">{{ contact_info.website }}</a></p>
+                                    </div>
+                                </li>
+                            </ul>
+                            {% else %}
+                            <p class="text-muted">No contact information available. Please send us a message via the form.</p>
+                            {% endif %}
+
+                            <div>
+                                <h6 class="mb-3">Follow Us</h6>
+                                <div class="d-flex gap-2">
+                                    <a href="#" class="btn btn-outline-secondary btn-sm rounded-circle"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="#" class="btn btn-outline-secondary btn-sm rounded-circle"><i class="fab fa-twitter"></i></a>
+                                    <a href="#" class="btn btn-outline-secondary btn-sm rounded-circle"><i class="fab fa-linkedin-in"></i></a>
+                                    <a href="#" class="btn btn-outline-secondary btn-sm rounded-circle"><i class="fab fa-instagram"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-7 order-lg-1">
+                    <div class="card shadow-sm border-0 h-100">
+                        <div class="card-body p-4">
+                            <h5 class="mb-4">Send a Message</h5>
+                            <form method="POST" novalidate>
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    {{ form.name.label_tag }}
+                                    {{ form.name }}
+                                    {% if form.name.errors %}
+                                        <div class="invalid-feedback d-block">{{ form.name.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="mb-3">
+                                    {{ form.email.label_tag }}
+                                    {{ form.email }}
+                                    {% if form.email.errors %}
+                                        <div class="invalid-feedback d-block">{{ form.email.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="mb-3">
+                                    {{ form.subject.label_tag }}
+                                    {{ form.subject }}
+                                    {% if form.subject.errors %}
+                                        <div class="invalid-feedback d-block">{{ form.subject.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="mb-4">
+                                    {{ form.message.label_tag }}
+                                    {{ form.message }}
+                                    {% if form.message.errors %}
+                                        <div class="invalid-feedback d-block">{{ form.message.errors.0 }}</div>
+                                    {% endif %}
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100 py-2">Send Message</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 mt-4">
+            <div class="ratio ratio-16x9 rounded-4 overflow-hidden shadow-sm">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d233668.66910305587!2d90.08974668671871!3d23.780416300000006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c74c743f2b53%3A0x15b3302ce6fe095c!2sBangladesh%20Meteorological%20Department!5e0!3m2!1sen!2sbd!4v1747233011997!5m2!1sen!2sbd"
+                    allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

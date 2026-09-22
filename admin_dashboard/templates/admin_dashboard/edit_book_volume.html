@@ -1,0 +1,25 @@
+{% extends 'admin_dashboard/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Edit Book Volume</h2>
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            <ul>
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <li>{{ field }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Update</button>
+        <a href="{% url 'book_volume_list' %}" class="btn btn-danger">🔙 Back to List</a>
+    </form>
+</div>
+{% endblock %}

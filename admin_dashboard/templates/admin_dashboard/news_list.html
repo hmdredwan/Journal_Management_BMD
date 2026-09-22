@@ -1,0 +1,14 @@
+{% extends 'admin_dashboard/base.html' %}
+{% block content %}
+<h2>News</h2>
+<a href="{% url 'upload_news' %}" class="btn btn-success mb-3">Upload News</a>
+{% for item in news %}
+    <div class="mb-3 p-3 border rounded">
+        <h5>{{ item.title }}</h5>
+        <p>{{ item.description }}</p>
+        <a href="{% url 'edit_news' item.id %}" class="btn btn-sm btn-warning mt-2">✏️ Edit</a>
+        <a href="{% url 'delete_news' item.id %}" class="btn btn-sm btn-danger mt-2"
+           onclick="return confirm('Are you sure?')">🗑️ Delete</a>
+    </div>
+{% endfor %}
+{% endblock %}

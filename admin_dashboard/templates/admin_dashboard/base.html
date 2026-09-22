@@ -1,0 +1,150 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
+    <!-- Standard favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon-32x32.png' %}">
+
+    <!-- Apple Touch Icon (iPhone/iPad) -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/apple-touch-icon.png' %}">
+
+    <!-- Android Chrome -->
+    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'images/android-chrome-192x192.png' %}">
+    <link rel="icon" type="image/png" sizes="512x512" href="{% static 'images/android-chrome-512x512.png' %}">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+<nav id="mainNavbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'dashboard' %}">Admin Dashboard</a>
+        <div class="d-flex gap-2">
+            <a href="{% url 'home' %}" class="btn btn-danger me-2">🔙 Back to Home</a>
+        </div>
+    </div>
+</nav>
+
+<main class="container-fluid flex-grow-1 py-4">
+    <div class="row">
+        {% if request.resolver_match.url_name in 'dashboard research_papers news_list gallery_list edit_profile edit_about_content edit_contact_info editorial_board_list' or 'research-papers' in request.path|lower or 'news' in request.path|lower or 'gallery' in request.path|lower or 'edit-profile' in request.path|lower or 'edit-about-content' in request.path|lower or 'edit-contact-info' in request.path|lower or 'editorial-board' in request.path|lower or 'manage-authors-instruction-pdf' in request.path|lower  or 'book-volumes' in request.path|lower %}
+        <aside class="col-md-2 bg-light border-end">
+            <div class="list-group list-group-flush">
+                <a href="{% url 'dashboard' %}" class="list-group-item list-group-item-action {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">🏠 Dashboard</a>
+                <a href="{% url 'book_volume_list' %}" class="list-group-item list-group-item-action {% if request.resolver_match.url_name == 'book_volume_list' %}active{% endif %}">📖 Book Volumes</a>
+                <a href="{% url 'research_papers' %}" class="list-group-item list-group-item-action {% if request.resolver_match.url_name == 'research_papers' %}active{% endif %}">📄 Research Papers</a>
+                <a href="{% url 'news_list' %}" class="list-group-item list-group-item-action {% if request.resolver_match.url_name == 'news_list' %}active{% endif %}">📰 News</a>
+                <!-- <a href="{% url 'gallery_list' %}" class="list-group-item list-group-item-action {% if request.resolver_match.url_name == 'gallery_list' %}active{% endif %}">🖼️ Gallery</a> -->
+                <a href="{% url 'editorial_board_list' %}" class="list-group-item list-group-item-action {% if request.resolver_match.url_name == 'editorial_board_list' %}active{% endif %}">👥 Editorial Board</a>
+                <a href="{% url 'manage_authors_instruction_pdf' %}" class="list-group-item list-group-item-action {% if request.resolver_match.url_name == 'manage_authors_instruction_pdf' %}active{% endif %}">📚 Author Instructions</a>
+                <a href="{% url 'edit_about_content' %}" class="list-group-item list-group-item-action {% if request.resolver_match.url_name == 'edit_about_content' %}active{% endif %}">📝 Edit About Us</a>
+                <a href="{% url 'edit_contact_info' %}" class="list-group-item list-group-item-action {% if request.resolver_match.url_name == 'edit_contact_info' %}active{% endif %}">📞 Edit Contact Info</a>
+                <a href="{% url 'edit_profile' %}" class="list-group-item list-group-item-action {% if request.resolver_match.url_name == 'edit_profile' %}active{% endif %}">👤 Edit Profile</a>
+                <form method="POST" action="{% url 'logout' %}" class="list-group-item m-0 p-0 border-0">
+                    {% csrf_token %}
+                    <button type="submit" class="list-group-item list-group-item-action text-danger w-100 text-start">🚪 Logout</button>
+                </form>
+            </div>
+        </aside>
+        {% endif %}
+        <div class="{% if request.resolver_match.url_name in 'dashboard research_papers news_list gallery_list edit_profile edit_about_content edit_contact_info' or 'research-papers' in request.path|lower or 'news' in request.path|lower or 'gallery' in request.path|lower or 'edit-profile' in request.path|lower or 'edit-about-content' in request.path|lower or 'edit-contact-info' in request.path|lower %}col-md-10{% else %}col-10{% endif %}">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</main>
+
+<footer class="bg-dark text-white text-center py-3 mt-auto">
+    <p>© 2025 BMD Journal Website. All Rights Reserved by <span><a href="https://live8.bmd.gov.bd/" style="text-decoration:none;color:rgb(241, 148, 7);"><b>Bangladesh Meteorological Department</b></a></span></p>
+    <p>Powered by <span><a href="https://www.websoftbd.net/"><img src="{% static 'images/WSBD.jpg' %}" alt="Logo" style="height: 30px; width: 60px; margin-right: 10px;border-radius: 2%;"></a></span></p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<button id="moveToTopBtn" class="btn btn-primary">
+    ⇧
+</button>
+
+<script>
+    let moveToTopBtn = document.getElementById("moveToTopBtn");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+            moveToTopBtn.style.display = "block";
+        } else {
+            moveToTopBtn.style.display = "none";
+        }
+    };
+    moveToTopBtn.onclick = function () {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    document.addEventListener('click', function(event) {
+        const target = event.target.closest('a');
+        if (target && target.href) {
+            const currentPath = window.location.pathname;
+            const targetUrl = new URL(target.href, window.location.origin);
+            const isAdminPage = currentPath.startsWith('/dashboard/');
+            const isLeavingAdmin = isAdminPage && !targetUrl.pathname.startsWith('/dashboard/');
+
+            if (isLeavingAdmin) {
+                event.preventDefault(); // Prevent immediate navigation
+                fetch("{% url 'logout' %}", {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}',
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'same-origin'
+                }).then(response => {
+                    window.location.href = targetUrl.href; // Navigate after logout
+                }).catch(error => {
+                    console.error('Logout failed:', error);
+                    window.location.href = targetUrl.href; // Navigate even if logout fails
+                });
+            }
+        }
+    });
+</script>
+
+<style>
+    #moveToTopBtn {
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        background-color: #113065;
+        color: white;
+        border: 3px solid #f39c12;
+        padding: 10px 15px;
+        font-size: 24px;
+        border-radius: 30%;
+        cursor: pointer;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    #moveToTopBtn:hover {
+        background-color: #1978de;
+    }
+    #mainNavbar {
+        transition: top 0.3s ease-in-out;
+        z-index: 1030;
+    }
+</style>
+
+<script>
+    window.addEventListener('scroll', function () {
+        const navbar = document.getElementById('mainNavbar');
+        if (window.scrollY > 100) {
+            navbar.classList.add('fixed-top', 'shadow');
+            document.body.style.paddingTop = navbar.offsetHeight + 'px';
+        } else {
+            navbar.classList.remove('fixed-top', 'shadow');
+            document.body.style.paddingTop = '0';
+        }
+    });
+</script>
+</body>
+</html>

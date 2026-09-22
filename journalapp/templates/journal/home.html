@@ -1,0 +1,226 @@
+{% extends 'journal/base.html' %}
+{% load static %}
+{% block title %}BMD Journal{% endblock %}
+
+{% block content %}
+<!-- About Us Section -->
+<section class="about-us py-3 bg-light">
+    <div class="container">
+        <div class="row align-items-start">
+            <!-- Left Side: About Us -->
+            <div class="col-md-8">
+                <h3 class="mb-5">Welcome to the Bangladesh Meteorological Department Journal</h3>
+                <p>
+                    The Bangladesh Meteorological Department Journal (BMD Journal) serves 
+                    as a significant platform for disseminating research, data, and studies related to meteorology, climate, and 
+                    environmental science in Bangladesh. As a crucial part of the country's meteorological infrastructure, the journal provides a 
+                    space for the publication of articles, research papers, and technical reports that contribute to a better understanding of weather patterns,
+                    climate change, and natural disaster management. The BMD Journal not only supports national and regional meteorological advancements but also 
+                    fosters collaboration among meteorologists, researchers, and climate scientists. Through this journal, the Bangladesh Meteorological Department aims 
+                    to enhance public awareness and policy-making on weather-related issues and contribute to the global discourse on climate science.
+                </p>
+            </div>
+
+            <!-- Right Side: Publications -->
+            <div class="col-md-4 ps-md-4 custom-border-start">
+                <!-- Publications Section (Carousel) -->
+                <div class="mb-5">
+                    <h3 class="mb-0 text-md-center text-center" style="color: #2F4F4F;">Publications</h3>
+                    {% if papers %}
+                        <div id="publicationCarousel" class="carousel slide publication-carousel" data-bs-ride="carousel" data-bs-interval="3000">
+                            <div class="carousel-inner">
+                                {% for paper in papers %}
+                                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                        <a href="{{ paper.pdf.url }}" target="_blank" class="d-block w-100">
+                                            {% if paper.thumbnail %}
+                                                <img src="{{ paper.thumbnail.url }}" class="d-block w-100 paper-thumbnail" alt="{{ paper.title }} Thumbnail">
+                                            {% else %}
+                                                <img src="{% static 'images/default-thumbnail.jpg' %}" class="d-block w-100 paper-thumbnail" alt="Default Thumbnail">
+                                            {% endif %}
+                                        </a>
+                                        {% if paper.title %}
+                                            <div class="carousel-caption publication-caption">
+                                                <h5><a href="{{ paper.pdf.url }}" target="_blank" class="text-decoration-none">{{ paper.title|default:"No Title" }}</a></h5>
+                                            </div>
+                                        {% else %}
+                                            <div class="carousel-caption publication-caption">
+                                                <h5>No Title Available</h5>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#publicationCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#publicationCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                        <div class="text-center mt-4">
+                            <a href="{% url 'publications' %}" class="btn btn-secondary">View All</a>
+                        </div>
+                    {% else %}
+                        <p class="text-center" style="color: #2F4F4F;">No publications available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Cards -->
+<section class="featured-cards py-4">
+    <div class="container">
+        <h2 class="mb-4 text-center" style="color: #2F4F4F;">Featured Content</h2>
+        <div class="row g-4">
+            <!-- Card 1: Latest News -->
+            <div class="col-12 col-md-4">
+                <div class="card h-30 shadow">
+                    <div class="card-body">
+                        <h3 class="mb-4 text-center" style="color: #2F4F4F;">Latest News</h3>
+                        {% if news_list %}
+                            <div class="news-scroll-container">
+                                {% for news in news_list %}
+                                <div class="card mb-3 shadow-sm">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <h5 class="card-title me-2 mb-0"><a href="#" class="text-decoration-none" style="color: #2F4F4F;">{{ news.title }}</a></h5>
+                                            <span class="text-warning" style="color: #2F4F4F;">{{ news.created_at|date:"F d, Y" }}</span>
+                                        </div>
+                                        <p class="card-text" style="color: #2F4F4F;">{{ news.description|truncatewords:25 }}</p>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-center" style="color: #398884; font-size:large; font-weight: 500;"> No news available.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <!-- Card 2: Publications -->
+            <div class="col-12 col-md-3">
+                <div class="card h-100 shadow">
+                    <a href="{% url 'publications' %}" ><img src="{% static 'images/publications1.jpeg' %}" class="card-img-top featured-card-image" alt="Weather Forecasting"></a>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title"><a href="{% url 'publications' %}" class="text-decoration-none" style="color: #2F4F4F;">Publications</a></h5>
+                        <h6 class="card-subtitle text-muted mb-2">Discover groundbreaking ideas and innovative research.</h6>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 3: Share Your Research -->
+            <div class="col-12 col-md-3">
+                <div class="card h-100 shadow">
+                    <a href="{% url 'query' %}"><img src="{% static 'images/share_research1.jpeg' %}" class="card-img-top featured-card-image" alt="Disaster Management"></a>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title"><a href="{% url 'query' %}" class="text-decoration-none" style="color: #2F4F4F;">Share Your Research</a></h5>
+                        <h6 class="card-subtitle text-muted mb-2">Join our community of thinkers—share your insights and discoveries today.</h6>
+                    </div>
+                </div>
+            </div>
+            <!-- Card 4: Contact With Us -->
+            <div class="col-12 col-md-2">
+                <div class="card h-100 shadow">
+                    <a href="{% url 'contact' %}"><img src="{% static 'images/contact_us1.jpg' %}" class="card-img-top featured-card-image-contact" alt="Environmental Studies"></a>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title"><a href="{% url 'contact' %}" class="text-decoration-none" style="color: #2F4F4F;">Contact Us</a></h5>
+                        <h6 class="card-subtitle text-muted mb-2">Have a question or feedback? We’d love to hear from you!</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .paper-thumbnail {
+        width: 100%;
+        height: 500px;
+        object-fit: contain;
+        object-position: center;
+    }
+    .featured-card-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        object-position: center;
+    }
+    .featured-card-image-contact{
+        width: 100%;
+        height: 200px;
+        object-fit: fill;
+        object-position: center;
+    }
+    .publication-carousel .carousel-caption {
+        background: rgba(48, 186, 196, 0.8); 
+        color: #FFC107; 
+        border-radius: 5px;
+        padding: 8px;
+        bottom: 10px; 
+        top: 250;
+        width:100%;
+        /* height:auto; */
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: left;
+        font-style: normal;
+        font-weight: lighter;
+        font-size: .2rem;
+        position: absolute;
+        z-index: 10; 
+    }
+    .publication-carousel .carousel-caption h5 a {
+        color: #FFC107;
+        text-decoration: none;
+    }
+    
+    .featured-cards .card-title a,
+    .publication-carousel .carousel-caption h5 a {
+        transition: all 0.3s ease;
+        color: #2F4F4F;
+    }
+    .featured-cards .card-title a:hover,
+    .publication-carousel .carousel-caption h5 a:hover {
+        color: #66c430 !important;
+        text-decoration: underline;
+        background-color: rgba(102, 196, 48, 0.1);
+        padding: 2px 5px;
+        border-radius: 3px;
+    }
+    @media (max-width: 576px) {
+        .paper-thumbnail {
+            height: 200px;
+        }
+        .publication-carousel .carousel-caption {
+            font-size: 0.8rem;
+            padding: 5px;
+            bottom: 5px;
+        }
+        .publication-carousel .carousel-caption h5 {
+            font-size: 0.8rem;
+        }
+    }
+        .news-scroll-container {
+        max-height: 300px; 
+        overflow-y: auto;
+        padding-right: 15px;
+    }
+    .news-scroll-container::-webkit-scrollbar {
+        width: 10px;
+    }
+    .news-scroll-container::-webkit-scrollbar-track {
+        background: #F5F6F5;
+        border-radius: 5px;
+    }
+    .news-scroll-container::-webkit-scrollbar-thumb {
+        background: #2F4F4F;
+        border-radius: 5px;
+    }
+    .news-scroll-container::-webkit-scrollbar-thumb:hover {
+        background: #FFC107;
+    }
+</style>
+{% endblock %}

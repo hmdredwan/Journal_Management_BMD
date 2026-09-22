@@ -1,0 +1,39 @@
+
+{% extends 'journal/base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">About Us</h2>
+    <div class="card p-4 shadow-sm">
+        {% if about_content %}
+            <p class="text-justify ">{{ about_content.content | safe }}</p>
+        {% else %}
+            <p class="text-center">No content available. Please contact the administrator.</p>
+        {% endif %}
+    </div>
+    <div class="card p-4 mt-4 shadow-sm">
+        <h4 class="text-center">Contact Us</h4>
+        <p class="text-center">
+            For inquiries, please reach out to us at: <a href="mailto:journal@bmd.gov.bd">editordewdrop@bmd.gov.bd</a>
+        </p>
+    </div>
+</div>
+<!-- <div class="container mt-5">
+    <h2 class="mb-4 text-center">About Us</h2>
+    <div class="card p-4 shadow-sm">
+        <p class="text-center">
+            Welcome to the BMD Journal, a premier platform dedicated to the dissemination of high-quality research in the field of Biomedical Sciences. Our mission is to provide a comprehensive and accessible resource for researchers, clinicians, and students alike.
+        </p>
+        <p class="text-center">
+            We are committed to promoting open access to scientific knowledge, ensuring that groundbreaking research is available to all. Our journal features a diverse range of articles, including original research, reviews, and case studies, all rigorously peer-reviewed by experts in the field.
+        </p>
+        <p class="text-center">
+            Join us in advancing the frontiers of biomedical research and contributing to the global scientific community.
+        </p>
+    </div>
+    <div class="card p-4 mt-4 shadow-sm">
+        <h4 class="text-center">Contact Us</h4>
+        <p class="text-center">
+            For inquiries, please reach out to us at: <a href="mailto: journal@bmd.gov.bd">journal@bmd.gov.bd</a>
+        </p> -->
+
+{% endblock %}
